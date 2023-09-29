@@ -1,0 +1,2 @@
+filename,nFE,nPE,COIL_DIM,TIME_DIM,SLICE_DIM,Valid_slice_start,Valid_slice_end,No_occ_slice_start,No_occ_slice_end,Flip,Remarks
+demo2.h5,192,156,30,25,22,3,8,,

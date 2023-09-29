@@ -1,0 +1,2 @@
+filename,nFE,nPE,COIL_DIM,TIME_DIM,SLICE_DIM,Valid_slice_start,Valid_slice_end,Flip,Remarks
+demo1.h5,192,156,34,25,12,6,11,y,

@@ -1,0 +1,110 @@
+
+general:
+  exp_name: Test
+  gpus: 0
+  wandb_entity: 'your_wandb_account'
+  debug: False
+  exp_save_root: 'experiments/'
+  weights_save_frequency: 20
+  acc_rate: &acc_rate [4]
+  only_infer: &only_infer False
+
+data:
+  # csv file path
+  train_subjs_csv: 'dataset/csv_files/CINE2D_train.csv' # a demo
+  val_subjs_csv: 'dataset/csv_files/CINE2D_val.csv' # a demo
+  mask_root: 'masks/' # a demo
+  data_root: 'your_CINE_data_root/'
+  mask_pattern: VISTA
+  acc_rate: *acc_rate
+  dtype: complex128
+  training_patch_time: 16
+  only_infer: *only_infer
+
+training:
+  num_epochs: &epochs 300
+  warmup_epoch: 4
+  batch_size: 1
+  num_workers: 4
+  restore_ckpt: False
+  restore_training: False
+  use_mixed_precision: True  # differ # for complexCNN this must be set False
+  optim_weight_decay: 0.05
+  
+network:
+  which: KInterpolator
+  KInterpolator:
+    img_size: [16,156,192]
+    patch_size: 4
+    embed_dim: 512
+    depth: 12
+    num_heads: 16
+    decoder_embed_dim: 512
+    decoder_depth: 8
+    decoder_num_heads: 16
+    mlp_ratio: 4.
+    single_coil: True
+
+    in_chans: 384
+    norm_layer: nn.LayerNorm
+    act_layer: nn.GELU
+    ref_repl_prior_denoiser: True
+
+    xt_y_tuning: True
+    xt_y_embed_dim: 512
+    xt_y_depth: 8
+    xt_y_num_heads: 8
+
+    yt_x_tuning: True
+    yt_x_embed_dim: 512
+    yt_x_depth: 8
+    yt_x_num_heads: 8
+
+    xy_t_patch_tuning: True
+    xy_t_patch_embed_dim: 512
+    xy_t_patch_depth: 8
+    xy_t_patch_num_heads: 8
+
+loss_base: &loss
+  k_recon_loss_combined:
+    k_loss_decay: 0.6
+    k_loss_list: [ 'L1', 'HDR', 'HDR', 'HDR']
+    k_loss_weighting: [ 1,1,1,1 ]
+    eps: &HDR_eps 0.5
+  k_recon_loss:
+    mode: L1
+  photometric:
+    mode: L2  # can be charbonnier, L1, L2
+  HDR:
+    eps: *HDR_eps
+  psnr:
+    max_value: on_fly
+    magnitude_psnr: True
+  use_weighting_mask: False
+  cardiac_crop_quantitative_metric: False
+  only_maskout: True
+
+train_loss:
+    <<: *loss
+    which: ['k_recon_loss_combined', 'k_recon_loss', 'photometric']
+    loss_weights: [1,1,1]
+
+
+eval_loss:
+    <<: *loss
+    which: ['k_recon_loss','photometric','psnr']
+    loss_weights: [1, 1, 1]
+
+optimizer:
+  which: AdamW
+  AdamW:
+    lr: &lr 0.0001
+    eps: !!float 1e-8
+    betas: [0.9, 0.95]
+#    weight_decay: 0.00001
+
+scheduler:
+  lr: *lr
+  min_lr: 0.0
+  warmup_epochs: 5
+  epochs: *epochs
