@@ -35,7 +35,7 @@ If you find this code or data useful for your research, please consider citing t
 @article{pan2023global,
         title={Global k-Space Interpolation for Dynamic MRI Reconstruction using Masked Image Modeling},
         author={Pan, Jiazhen and Shit, Suprosanna and Turgut, {\"O}zg{\"u}n and Huang, Wenqi and Li, Hongwei Bran and Stolt-Ans{\'o}, Nil and K{\"u}stner, Thomas and Hammernik, Kerstin and Rueckert, Daniel},
-        journal={arXiv preprint arXiv:2307.12672},
+        journal={Medical Image Computing and Computer Assisted Intervention -- MICCAI 2023},
         year={2023}
       }
 ```
