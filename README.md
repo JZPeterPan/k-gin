@@ -4,7 +4,7 @@ Jiazhen Pan, Suprosanna Shit, Özgün Turgut, Wenqi Huang, Hongwei Bran Li, Nil 
 
 Paper accepted at MICCAI 2023.
 
-Please also refer to our [ArXiv paper](https://arxiv.org/abs/2006.06668).
+Please also refer to our [ArXiv paper](https://arxiv.org/abs/2307.12672).
 
 For more details (video, poster etc.) please refer to our [project page](https://jzpeterpan.github.io/k-gin.github.io/).
 
